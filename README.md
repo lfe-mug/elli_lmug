@@ -1,6 +1,11 @@
 # lmug-elli
 
-*An lmug adapter that uses the elli web server*
+[![][lmug-logo]][lmug-logo-large]
+
+[lmug-logo]: resources/images/lmug-elli.png
+[lmug-logo-large]: resources/images/lmug-elli-large.png
+
+*An lmug adapter for the Elli web server*
 
 
 ##### Contents
