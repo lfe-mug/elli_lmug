@@ -1,6 +1,12 @@
 
 # lmug-elli
 
+[![img](https://travis-ci.org/lfe-mug/lmug-elli.svg)](https://travis-ci.org/lfe-mug/lmug-elli)
+[![img](https://img.shields.io/github/tag/lfe-mug/lmug-elli.svg)](https://github.com/lfe-mug/lmug-elli/releases/latest)
+[![img](https://img.shields.io/badge/erlang-%E2%89%A5R16B03-1-red.svg)](http://www.erlang.org/downloads)
+[![img](https://img.shields.io/badge/docs-67%25-green.svg)](http://lfe-mug.github.io/elli-lmug)
+[![img](https://img.shields.io/badge/license-Apache-blue.svg)](LICENSE)
+
 [![img](resources/images/lmug-elli.png)](resources/images/lmug-elli-large.png)
 
 *An lmug [adaptor](https://github.com/lfe-mug/lmug#adaptors-) for the [Elli](https://github.com/knutin/elli) web server.*
@@ -26,7 +32,7 @@ Just add it to your `rebar.config` `deps`:
 {deps, [
   {lmug_elli,
    {git, "git://github.com/lfe-mug/lmug-elli.git",
-    {tag, "0.2.2"}}}
+    {tag, "0.2.3"}}}
 ]}.
 ```
 

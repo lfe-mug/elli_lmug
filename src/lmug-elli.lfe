@@ -31,35 +31,40 @@
 
   [1]: https://github.com/knutin/elli/blob/v1.0.5/include/elli.hrl#L35-L46
   [2]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#request-record"
-  (let (((list uri remote-addr path query-string
-               query-params method headers body)
-         (lc ((<- func (list #'elli_request:raw_path/1
+  (let (((list `#(,server-port ,server-name) remote-addr uri path
+               query-string query-params scheme method protocol
+               headers body)
+         (lc ((<- func (list #'elli->port-name/1
                              #'elli_request:peer/1
+                             #'elli_request:raw_path/1
                              #'elli_request:path/1
                              #'elli_request:query_str/1
                              #'elli_request:get_args_decoded/1
+                             #'elli->scheme/1
                              #'elli->method/1
+                             #'elli->protocol/1
                              #'elli_request:headers/1
                              #'elli_request:body/1)))
            (funcall func req))))
-    (make-request
-     ;; TODO: server-port
-     ;; TODO: server-name
-     ;; TODO: remote-addr
-     uri          (binary_to_list uri) ; FIXME: drop the binary_to_list/1 call
-     path         path
-     query-string query-string
-     query-params query-params
-     ;; TODO: scheme
-     method       method
-     ;; TODO: protocol
-     ;; TODO: ssl-client-cert
-     headers       headers
-     body          body
-     ;; TODO: consider removing orig
-     orig         req
-     ;; TODO: mw-data
-     )))
+    (make-request server-port  server-port
+                  server-name  server-name
+                  remote-addr  remote-addr
+                  ;; FIXME: drop the binary_to_list/1 call
+                  uri          (binary_to_list uri) 
+                  path         path
+                  query-string query-string
+                  query-params query-params
+                  scheme       scheme
+                  method       method
+                  ;; TODO: add protocol field to lmug request record
+                  ;; protocol     protocol
+                  ;; TODO: ssl-client-cert
+                  headers       headers
+                  body          body
+                  orig         req
+                  ;; TODO: add mw-data field to lmug request record
+                  ;; mw-data      []
+                  )))
 
 (defun response->elli
   "Given an [lmug `#response{}`][1], return an [elli response][2].
@@ -94,8 +99,28 @@
   ([req handler []]
    (response->elli (funcall handler (elli->request req)))))
 
-;; TODO: write docstring
+(defun elli->port-name
+  ;; TODO: write docstring
+  ([(match-req headers headers)]
+   (case (binary:split (proplists:get_value #"Host" headers) #":")
+     (`[,name ,port] `#(,(binary_to_integer port) ,name))
+     (`[,name]       `#(80    ,name))
+     ;; FIXME: obviously
+     (_              (error 'FIXME)))))
+
+(defun elli->scheme
+  ;; TODO: write docstring
+  ([(match-req socket `#(plain ,_socket))] 'http)
+  ([(match-req socket `#(ssl   ,_socket))] 'https))
+
+(defun elli->protocol
+  ;; TODO: write docstring
+  ([(match-req version `#(,major ,minor))]
+   (flet ((i->l (i) (integer_to_list i)))
+     (iolist_to_binary (list "HTTP/" (i->l major) "." (i->l minor))))))
+
 (defun elli->method
+  ;; TODO: write docstring
   ([(match-req method method)] (elli->method method))
   (['OPTIONS]                  'options)
   (['GET]                      'get)

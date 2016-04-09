@@ -1,6 +1,6 @@
 {application, lmug_elli, [
   {description,  "An lmug adaptor for the Elli web server."},
-  {vsn,          "0.2.2"},
+  {vsn,          "0.2.3"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
