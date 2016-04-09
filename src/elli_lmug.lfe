@@ -46,7 +46,7 @@
      ;; TODO: server-port
      ;; TODO: server-name
      ;; TODO: remote-addr
-     uri          uri
+     uri          (binary_to_list uri) ; FIXME: drop the binary_to_list/1 call
      path         path
      query-string query-string
      query-params query-params
@@ -67,7 +67,15 @@
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
   [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
   ([(= (match-response status status headers headers body body) response)]
-   (tuple status headers body)))
+   ;; (tuple status headers body)
+   ;; FIXME: delete this hack once lmug uses binaries
+   (tuple status
+          (lists:map
+            (match-lambda
+              ([`#(,k ,v)]
+               `#(,(list_to_binary k) ,(list_to_binary v))))
+            headers)
+          (list_to_binary body))))
 
 
 ;;;===================================================================
