@@ -1,39 +1,40 @@
+
 # lmug-elli
 
-[![][lmug-logo]][lmug-logo-large]
+[![img](resources/images/lmug-elli.png)](resources/images/lmug-elli-large.png)
 
-*An lmug [adaptor][] for the [Elli][] web server.*
+*An lmug [adaptor](https://github.com/lfe-mug/lmug#adaptors-) for the [Elli](https://github.com/knutin/elli) web server.*
 
-[lmug-logo]: resources/images/lmug-elli.png
-[lmug-logo-large]: resources/images/lmug-elli-large.png
-[adaptor]: https://github.com/lfe-mug/lmug#adaptors-
-[Elli]: https://github.com/knutin/elli
+## Contents
 
-##### Contents
+-   [Introduction](#introduction-)
+-   [Installation](#installation-)
+-   [Documentation](#documentation-)
+-   [License](#license-)
 
-* [Introduction](#introduction-)
-* [Documentation](#documentation-)
-* [License](#license-)
-
-## Introduction [&#x219F;](#contents)
+## Introduction [↟](#contents)
 
 TBD
 
+## Installation [↟](#contents)
 
-## Documentation [&#x219F;](#contents)
+Just add it to your `rebar.config` `deps`:
 
-* The [lmug spec][] - based on the Clojure [Ring spec][].
-* The [lmug-elli API reference][]
-
-[lmug spec]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md
-[Ring spec]: https://github.com/ring-clojure/ring/blob/master/SPEC
-[lmug-elli API reference]: http://lfe-mug.github.io/lmug-elli
-
-
-## License [&#x219F;](#contents)
-
+```erlang
+{deps, [
+  {lmug_elli,
+   {git, "git://github.com/lfe-mug/lmug-elli.git",
+    {tag, "0.2.2"}}}
+]}.
 ```
-Copyright © 2016 LFE Dragon Team
 
-Distributed under the Apache License, Version 2.0.
-```
+## Documentation [↟](#contents)
+
+-   The [lmug spec](https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md) — based on the Clojure [Ring spec](https://github.com/ring-clojure/ring/blob/master/SPEC).
+-   The [lmug-elli API reference](http://lfe-mug.github.io/lmug-elli).
+
+## License [↟](#contents)
+
+    Copyright © 2016 LFE Dragon Team
+    
+    Distributed under the Apache License, Version 2.0.

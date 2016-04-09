@@ -1,0 +1,60 @@
+#+STARTUP: showall
+#+OPTIONS: ^:{} toc:nil num:3
+#+AUTHOR: Eric Bailey
+
+* lmug-elli
+[[file:resources/images/lmug-elli-large.png][file:resources/images/lmug-elli.png]]
+
+/An lmug [[https://github.com/lfe-mug/lmug#adaptors-][adaptor]] for the [[https://github.com/knutin/elli][Elli]] web server./
+
+** Contents
+:PROPERTIES:
+:CUSTOM_ID: contents
+:END:
+- [[#introduction-][Introduction]]
+- [[#installation-][Installation]]
+- [[#documentation-][Documentation]]
+- [[#license-][License]]
+
+** Introduction [[#contents][↟]]
+   :PROPERTIES:
+   :CUSTOM_ID: introduction-
+   :END:
+TBD
+
+** Installation [[#contents][↟]]
+   :PROPERTIES:
+   :CUSTOM_ID: installation-
+   :noweb:    yes
+   :END:
+#+NAME: tag
+#+BEGIN_SRC sh :exports none
+git describe
+#+END_SRC
+
+Just add it to your =rebar.config= =deps=:
+
+#+BEGIN_SRC erlang
+{deps, [
+  {lmug_elli,
+   {git, "git://github.com/lfe-mug/lmug-elli.git",
+    {tag, "<<tag()>>"}}}
+]}.
+#+END_SRC
+
+** Documentation [[#contents][↟]]
+   :PROPERTIES:
+   :CUSTOM_ID: documentation-
+   :END:
+- The [[https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md][lmug spec]] — based on the Clojure [[https://github.com/ring-clojure/ring/blob/master/SPEC][Ring spec]].
+- The [[http://lfe-mug.github.io/lmug-elli][lmug-elli API reference]].
+
+** License [[#contents][↟]]
+   :PROPERTIES:
+   :CUSTOM_ID: license-
+   :END:
+#+BEGIN_EXAMPLE
+Copyright © 2016 LFE Dragon Team
+
+Distributed under the Apache License, Version 2.0.
+#+END_EXAMPLE
