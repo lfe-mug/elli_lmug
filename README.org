@@ -6,7 +6,7 @@
 [[https://travis-ci.org/lfe-mug/lmug-elli][file:https://travis-ci.org/lfe-mug/lmug-elli.svg]]
 [[https://github.com/lfe-mug/lmug-elli/releases/latest][file:https://img.shields.io/github/tag/lfe-mug/lmug-elli.svg]]
 [[http://www.erlang.org/downloads][file:https://img.shields.io/badge/erlang-%E2%89%A5R16B03-red.svg]]
-[[http://lfe-mug.github.io/elli-lmug][file:https://img.shields.io/badge/docs-67%25-green.svg]]
+[[http://lfe-mug.github.io/lmug-elli][file:https://img.shields.io/badge/docs-67%25-green.svg]]
 [[file:LICENSE][file:https://img.shields.io/badge/license-Apache-blue.svg]]
 
 [[file:resources/images/lmug-elli-large.png][file:resources/images/lmug-elli.png]]
