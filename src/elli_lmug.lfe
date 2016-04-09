@@ -4,8 +4,7 @@
   ;; elli_handler callbacks
   (export (handle 2))
   ;; elli <-> lmug translation
-  (export (elli->request  2) (elli_to_request  2)
-          (response->elli 2) (response_to_elli 2)))
+  (export (elli->request 1) (response->elli 1)))
 
 (include-lib "elli_lmug/include/elli_lmug.hrl") ; elli req record, etc
 (include-lib "lmug/include/request.lfe")        ; lmug request record
@@ -16,11 +15,9 @@
 ;;; elli_handler callbacks
 ;;;===================================================================
 
-;; TODO: elli_handler:handle/2, wrapping the handler/2 passed to run/2.
-
-(defun handle (_req _args)
+(defun handle (req args)
   ;; TODO: write docstring
-  'ignore)
+  (do-handle (proplists:get_value 'handler) req args))
 
 
 ;;;===================================================================
@@ -28,74 +25,73 @@
 ;;;===================================================================
 
 ;; TODO: implement
-;; TODO: write docstring
-(defun elli->request (req args)
+(defun elli->request (req)
   "Given an [elli `#req{}`][1], return an [lmug `#request{}`][2].
 
   [1]: https://github.com/knutin/elli/blob/v1.0.5/include/elli.hrl#L35-L46
   [2]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#request-record"
-  ;; TODO: get some values from initial run/2 call
-  (let* ((uri    (binary_to_list (elli_request:raw_path req)))
-         (path   (uri->path uri))
-         (method (method-elli->lmug (elli_request:method req))))
-    (make-request
-     ;; TODO: server-port
+  (let (((list uri remote-addr path query-string
+               query-params method headers body)
+         (lc ((<- func (list #'elli_request:raw_path/1
+                             #'elli_request:peer/1
+                             #'elli_request:path/1
+                             #'elli_request:query_str/1
+                             #'elli_request:get_args_decoded/1
+                             #'elli->method/1
+                             #'elli_request:headers/1
+                             #'elli_request:body/1)))
+           (funcall func req))))
+    (make-request ;; TODO: server-port
      ;; TODO: server-name
      ;; TODO: remote-addr
      uri          uri
      path         path
-     ;; TODO: query-string
-     ;; XXX args :: [{binary(), any()}]
-     query-params (elli_request:get_args_decoded req)
+     query-string query-string
+     query-params query-params
      ;; TODO: scheme
      method       method
-     ;; TODO: content-type
-     ;; TODO: content-length
-     ;; TODO: content-encoding
+     ;; TODO: protocol
      ;; TODO: ssl-client-cert
-     ;; TODO: headers
-     ;; TODO: body
-     ;; TODO: orig
+     headers       headers
+     body          body
+     ;; TODO: consider removing orig
+     orig         req
+     ;; TODO: mw-data
      )))
 
-(defun elli_to_request (req args)
-  "A more Erlang-friendly alias to [[elli->request/2]]."
-  (elli->request req args))
-
 ;; TODO: implement
-;; TODO: write docstring
-(defun response->elli (_req _args)
+(defun response->elli (_req)
   "Given an [lmug `#response{}`][1], return an [elli response][2].
 
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
   [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
   'ignore)
 
-(defun response_to_elli (req args)
-  "A more Erlang-friendly alias to [[response->elli/2]]."
-  (response->elli req args))
-
 
 ;;;===================================================================
 ;;; Internal functions
 ;;;===================================================================
 
-(defun uri->path (uri)
-  (case (string:tokens uri "?")
-    (`[,path]       path)
-    (`[,path ,args] path)))
+(defun do-handle
+  ;; TODO: write docstring
+  ([`#(,module ,opts) req args] (when (is_atom module) (is_list opts))
+   (if (erlang:function_exported module 'wrap 2)
+     (call module 'wrap (elli->request req) opts)
+     'ignore))
+  (['undefined _req _args]
+   'ignore))
 
 ;; TODO: write docstring
-(defun method-elli->lmug
-  (['OPTIONS] 'options)
-  (['GET]     'get)
-  (['HEAD]    'head)
-  (['POST]    'post)
-  (['PUT]     'put)
-  (['DELETE]  'delete)
-  (['TRACE]   'trace)
+(defun elli->method
+  ([(match-req method method)] (elli->method method))
+  (['OPTIONS]                  'options)
+  (['GET]                      'get)
+  (['HEAD]                     'head)
+  (['POST]                     'post)
+  (['PUT]                      'put)
+  (['DELETE]                   'delete)
+  (['TRACE]                    'trace)
   ([bin] (when (is_binary bin))
-   ;; TODO: make sure all the right atoms exist
    ;; TODO: consider clj/pynchon
    (let ((bin* (bc ((<= c bin)) ((string:to_lower c) integer))))
      (binary_to_existing_atom bin* 'latin1))))

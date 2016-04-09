@@ -4,7 +4,7 @@
 -type elli_response() :: {response_code(), [tuple()], binary()}
                        | {ok, [tuple()], binary()}.
 
--spec elli_lmug:handle(Req, Args) -> Res when
+-spec elli_lmug:handle(Req, Args) -> ignore | Res when
     Req  :: #req{},
     Args :: callback_args(),
     Res  :: elli_response().
