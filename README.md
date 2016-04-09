@@ -1,12 +1,13 @@
-# lmug-elli
+# elli_lmug
 
 [![][lmug-logo]][lmug-logo-large]
 
+*An lmug [adaptor][] for the [Elli][] web server.*
+
 [lmug-logo]: resources/images/lmug-elli.png
 [lmug-logo-large]: resources/images/lmug-elli-large.png
-
-*An lmug adapter for the Elli web server*
-
+[adaptor]: https://github.com/lfe-mug/lmug#adaptors-
+[Elli]: https://github.com/knutin/elli
 
 ##### Contents
 
