@@ -4,22 +4,22 @@
 -type elli_response() :: {response_code(), [tuple()], binary()}
                        | {ok, [tuple()], binary()}.
 
--spec elli_lmug:handle(Req, Args) -> ignore | Res when
+-spec 'lmug-elli':handle(Req, Args) -> ignore | Res when
     Req  :: #req{},
     Args :: callback_args(),
     Res  :: elli_response().
 
--spec elli_lmug:handle_event(Event, Args, Config) -> ok when
+-spec 'lmug-elli':handle_event(Event, Args, Config) -> ok when
     Event  :: elli_event(),
     Args   :: [term()],
     Config :: [tuple()].
 
--spec elli_lmug:'elli->request'(Req, Args) -> Request when
+-spec 'lmug-elli':'elli->request'(Req, Args) -> Request when
     Req     :: #req{},
     Args    :: callback_args(),
     Request :: #request{}.
 
--spec elli_lmug:'response->elli'(Response, Args) -> Res when
+-spec 'lmug-elli':'response->elli'(Response, Args) -> Res when
     Response :: #response{},
     Args     :: callback_args(),
     Res      :: elli_response().

@@ -1,4 +1,4 @@
-(defmodule elli_lmug
+(defmodule lmug-elli
   (doc "TODO: write docstring")
   (behaviour elli_handler)
   ;; elli_handler callbacks
@@ -6,7 +6,7 @@
   ;; elli <-> lmug translation
   (export (elli->request 1) (response->elli 1)))
 
-(include-lib "elli_lmug/include/elli_lmug.hrl") ; elli req record, etc
+(include-lib "lmug_elli/include/lmug_elli.hrl") ; elli req record, etc
 (include-lib "lmug/include/request.lfe")        ; lmug request record
 (include-lib "lmug/include/response.lfe")       ; lmug response record
 

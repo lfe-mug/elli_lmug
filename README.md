@@ -1,4 +1,4 @@
-# elli_lmug
+# lmug-elli
 
 [![][lmug-logo]][lmug-logo-large]
 
@@ -23,11 +23,11 @@ TBD
 ## Documentation [&#x219F;](#contents)
 
 * The [lmug spec][] - based on the Clojure [Ring spec][].
-* The [elli_lmug API reference][]
+* The [lmug-elli API reference][]
 
 [lmug spec]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md
 [Ring spec]: https://github.com/ring-clojure/ring/blob/master/SPEC
-[elli_lmug API reference]: http://lfe-mug.github.io/elli_lmug
+[lmug-elli API reference]: http://lfe-mug.github.io/lmug-elli
 
 
 ## License [&#x219F;](#contents)

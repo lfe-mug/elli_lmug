@@ -1,12 +1,12 @@
-{application, elli_lmug, [
+{application, lmug_elli, [
   {description,  "An lmug adaptor for the Elli web server."},
-  {vsn,          "0.2.1"},
+  {vsn,          "0.2.2"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
-  {modules,      [elli_lmug]},
+  {modules,      ['lmug-elli']},
 
   {maintainers,  [{"Eric Bailey"}]},
   {licenses,     ["Apache"]},
-  {links,        [{"GitHub", "https://github.com/lfe-lmug/elli_lmug"}]}
+  {links,        [{"GitHub", "https://github.com/lfe-lmug/lmug-elli"}]}
  ]}.

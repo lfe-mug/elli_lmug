@@ -1,13 +1,13 @@
-(defmodule elli_lmug_middleware_tests
+(defmodule lmug-elli_middleware-tests
   (behaviour ltest-unit)
-  (export (elli_lmug_middleware_test_ 0)))
+  (export (lmug_elli_middleware_test_ 0)))
 
 (include-lib "ltest/include/ltest-macros.lfe")
 (include-lib "lmug/include/request.lfe")
 (include-lib "lmug/include/response.lfe")
 
 
-(deftestgen elli-lmug-middleware
+(deftestgen lmug-elli-middleware
   "Tests based on [`elli_middleware_tests`][1] and
   [`lmug-mw-content-type-tests`][2].
 
@@ -55,7 +55,7 @@
   (application:start 'public_key)
   (application:start 'ssl)
   (inets:start)
-  (let* ((config      `[#(mods [#(elli_lmug [#(lmug-mw-content-type [])])])])
+  (let* ((config      `[#(mods [#(lmug-elli [#(lmug-mw-content-type [])])])])
          (`#(ok ,pid) (elli:start_link `[#(callback      elli_middleware)
                                          #(callback_args ,config)
                                          #(port          3002)])))
