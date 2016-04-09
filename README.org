@@ -13,6 +13,8 @@
 :END:
 - [[#introduction-][Introduction]]
 - [[#installation-][Installation]]
+- [[#usage-][Usage]]
+  - [[#simple-example-][Simple Example]]
 - [[#documentation-][Documentation]]
 - [[#license-][License]]
 
@@ -27,9 +29,10 @@ TBD
    :CUSTOM_ID: installation-
    :noweb:    yes
    :END:
+# http://stackoverflow.com/q/1404796/1793234#comment1246640_1404862
 #+NAME: tag
 #+BEGIN_SRC sh :exports none
-git describe
+git describe --abbrev=0
 #+END_SRC
 
 Just add it to your =rebar.config= =deps=:
@@ -40,6 +43,80 @@ Just add it to your =rebar.config= =deps=:
    {git, "git://github.com/lfe-mug/lmug-elli.git",
     {tag, "<<tag()>>"}}}
 ]}.
+#+END_SRC
+
+** Usage [[#contents][↟]]
+:PROPERTIES:
+:CUSTOM_ID: usage-
+:END:
+*** STARTED Simple Example [[#contents][↟]]
+:PROPERTIES:
+:CUSTOM_ID: simple-example-
+:END:
+
+**** Middleware: ~lmug-mw-example~
+To make for a simple example, our ~lmug-mw-example~ is the identity middleware.
+
+#+BEGIN_SRC lfe
+(defmodule lmug-mw-example
+  (export (wrap 2)))
+
+(defun wrap (handler opts)
+  (lambda (req)
+    (funcall handler opts)))
+#+END_SRC
+
+**** Supervisor: ~example-sup~
+:PROPERTIES:
+:noweb:    yes
+:END:
+The key point here is to set up your ~lmug-elli~ middleware.  As with /normal/
+Elli middlewares, you pass a module name, ~lmug-elli~, and a list of ~args~.  In
+this case, ~lmug-elli~ expects your ~args~ list to be of the form:
+#+BEGIN_SRC lfe
+[#(lmug-mw-mod-name (= [#(opt-name opt-value) ...] opts)) ...]
+#+END_SRC
+
+For our example, will use a single lmug middleware, ~lmug-mw-example~ from
+above, and pass it the empty list as ~opts~:
+#+NAME: lmug-elli-config
+: #(lmug-elli [#(lmug-mw-example [])])
+
+With your middleware configured, start and supervise ~elli~ as normal:
+#+BEGIN_SRC lfe
+(defmodule example-sup
+  (behaviour supervisor)
+  ;; API
+  (export (start_link 0))
+  ;; Supervisor callbacks
+  (export (init 1)))
+
+(defun start_link ()
+  (supervisor:start_link `#(local ,(MODULE)) (MODULE) []))
+
+(defun init
+  ([()]
+   (let* ((callback_args `[#(mods [<<lmug-elli-config()>>])])
+          (config        `[#(callback      elli_middleware)
+                           #(callback_args ,config)
+                           #(port          8080)]))
+     #(ok #(#m(intensity 5 period 10)
+            [#m(id example start #(elli start_link []))])))))
+#+END_SRC
+
+**** COMMENT Application: ~example-app~
+There's nothing special to do here, but we've included it for completeness.
+#+BEGIN_SRC lfe
+(defmodule example-app
+  (behaviour application)
+  (export (start 2) (stop 1)))
+
+(defun start (_type _args)
+  (case (example-sup:start_link)
+    (`#(ok ,pid) `#(ok ,pid))
+    (other       `#(error ,other))))
+
+(defun stop (_state) 'ok)
 #+END_SRC
 
 ** Documentation [[#contents][↟]]
