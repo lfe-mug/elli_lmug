@@ -1,2 +1,2 @@
-== elli_lmug ==
+== lmug-elli ==
 handle/2
