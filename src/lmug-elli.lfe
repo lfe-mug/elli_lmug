@@ -1,10 +1,20 @@
 (defmodule lmug-elli
   (doc "TODO: write docstring")
   (behaviour elli_handler)
+  ;; (behaviour lmug-adptr)
   ;; elli_handler callbacks
   (export (handle 2))
-  ;; elli <-> lmug translation
-  (export (elli->request 1) (response->elli 1)))
+  ;; lmug-adptr callbacks
+  (export (->request 1) (response-> 1))
+  (import (rename erlang ((function_exported 3) exported?))
+          (rename elli_request
+            ((peer 1) ->remote-addr)
+            ((raw_path 1) ->uri)
+            ((path 1) ->path)
+            ((query_str 1) ->query-string)
+            ((get_args_decoded 1) ->query-params)
+            ((headers 1) ->headers)
+            ((body 1) ->body))))
 
 (include-lib "lmug_elli/include/lmug_elli.hrl") ; elli req record, etc
 (include-lib "lmug/include/request.lfe")        ; lmug request record
@@ -25,7 +35,7 @@
 ;;; elli <-> lmug translation functions
 ;;;===================================================================
 
-(defun elli->request (req)
+(defun ->request (req)
   "Given an [elli `#req{}`][1], return an [lmug `#request{}`][2].
 
   [1]: https://github.com/knutin/elli/blob/v1.0.5/include/elli.hrl#L35-L46
@@ -33,17 +43,17 @@
   (let (((list `#(,server-port ,server-name) remote-addr uri path
                query-string query-params scheme method protocol
                headers body)
-         (lc ((<- func (list #'elli->port-name/1
-                             #'elli_request:peer/1
-                             #'elli_request:raw_path/1
-                             #'elli_request:path/1
-                             #'elli_request:query_str/1
-                             #'elli_request:get_args_decoded/1
-                             #'elli->scheme/1
-                             #'elli->method/1
-                             #'elli->protocol/1
-                             #'elli_request:headers/1
-                             #'elli_request:body/1)))
+         (lc ((<- func (list #'->port-name/1
+                             #'->remote-addr/1
+                             #'->uri/1
+                             #'->path/1
+                             #'->query-string/1
+                             #'->query-params/1
+                             #'->scheme/1
+                             #'->method/1
+                             #'->protocol/1
+                             #'->headers/1
+                             #'->body/1)))
            (funcall func req))))
     (make-request server-port  server-port
                   server-name  server-name
@@ -61,7 +71,7 @@
                   orig         req
                   mw-data      [])))
 
-(defun response->elli
+(defun response->
   "Given an [lmug `#response{}`][1], return an [elli response][2].
 
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
@@ -79,14 +89,14 @@
   ([req handler `[,module-opts . ,handlers]]
    (case module-opts
      (`#(,module ,opts) (when (is_atom module) (is_list opts))
-      (if (erlang:function_exported module 'wrap 2)
+      (if (exported? module 'wrap 2)
         (handle req (call module 'wrap handler opts) handlers)
         'ignore))
      (_ 'ignore)))
   ([req handler []]
-   (response->elli (funcall handler (elli->request req)))))
+   (response-> (funcall handler (->request req)))))
 
-(defun elli->port-name
+(defun ->port-name
   ;; TODO: write docstring
   ([(match-req headers headers)]
    (case (binary:split (proplists:get_value #"Host" headers) #":")
@@ -95,20 +105,20 @@
      ;; FIXME: obviously
      (_              (error 'FIXME)))))
 
-(defun elli->scheme
+(defun ->scheme
   ;; TODO: write docstring
   ([(match-req socket `#(plain ,_socket))] 'http)
   ([(match-req socket `#(ssl   ,_socket))] 'https))
 
-(defun elli->protocol
+(defun ->protocol
   ;; TODO: write docstring
   ([(match-req version `#(,major ,minor))]
    (flet ((i->l (i) (integer_to_list i)))
      (iolist_to_binary (list "HTTP/" (i->l major) "." (i->l minor))))))
 
-(defun elli->method
+(defun ->method
   ;; TODO: write docstring
-  ([(match-req method method)] (elli->method method))
+  ([(match-req method method)] (->method method))
   (['OPTIONS]                  'options)
   (['GET]                      'get)
   (['HEAD]                     'head)
