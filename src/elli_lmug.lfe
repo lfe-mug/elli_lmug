@@ -15,9 +15,10 @@
 ;;; elli_handler callbacks
 ;;;===================================================================
 
-(defun handle (req args)
+(defun handle
   ;; TODO: write docstring
-  (do-handle (proplists:get_value 'handler) req args))
+  ([req ()]       'ignore)
+  ([req handlers] (handle req (lmug:response) handlers)))
 
 
 ;;;===================================================================
@@ -41,7 +42,8 @@
                              #'elli_request:headers/1
                              #'elli_request:body/1)))
            (funcall func req))))
-    (make-request ;; TODO: server-port
+    (make-request
+     ;; TODO: server-port
      ;; TODO: server-name
      ;; TODO: remote-addr
      uri          uri
@@ -59,27 +61,30 @@
      ;; TODO: mw-data
      )))
 
-;; TODO: implement
-(defun response->elli (_req)
+(defun response->elli
   "Given an [lmug `#response{}`][1], return an [elli response][2].
 
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
   [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
-  'ignore)
+  ([(= (match-response status status headers headers body body) response)]
+   (tuple status headers body)))
 
 
 ;;;===================================================================
 ;;; Internal functions
 ;;;===================================================================
 
-(defun do-handle
+(defun handle
   ;; TODO: write docstring
-  ([`#(,module ,opts) req args] (when (is_atom module) (is_list opts))
-   (if (erlang:function_exported module 'wrap 2)
-     (call module 'wrap (elli->request req) opts)
-     'ignore))
-  (['undefined _req _args]
-   'ignore))
+  ([req handler `[,module-opts . ,handlers]]
+   (case module-opts
+     (`#(,module ,opts) (when (is_atom module) (is_list opts))
+      (if (erlang:function_exported module 'wrap 2)
+        (handle req (call module 'wrap handler opts) handlers)
+        'ignore))
+     (_ 'ignore)))
+  ([req handler []]
+   (response->elli (funcall handler (elli->request req)))))
 
 ;; TODO: write docstring
 (defun elli->method
