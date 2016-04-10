@@ -13,7 +13,7 @@
   2},
  {<<"lmug">>,
   {git,"git://github.com/lfe-mug/lmug.git",
-       {ref,"4658bb93efdb6770774739f45d2ce130fb7a1b2d"}},
+       {ref,"6e69b833067bbf04f20ef305881ee949bf5f7453"}},
   0},
  {<<"lutil">>,
   {git,"https://github.com/lfex/lutil.git",

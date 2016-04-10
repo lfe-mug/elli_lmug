@@ -32,7 +32,7 @@ Just add it to your `rebar.config` `deps`:
 {deps, [
   {lmug_elli,
    {git, "git://github.com/lfe-mug/lmug-elli.git",
-    {tag, "0.2.3"}}}
+    {tag, "0.2.4"}}}
 ]}.
 ```
 

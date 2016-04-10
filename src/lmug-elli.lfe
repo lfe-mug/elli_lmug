@@ -25,7 +25,6 @@
 ;;; elli <-> lmug translation functions
 ;;;===================================================================
 
-;; TODO: implement
 (defun elli->request (req)
   "Given an [elli `#req{}`][1], return an [lmug `#request{}`][2].
 
@@ -49,22 +48,18 @@
     (make-request server-port  server-port
                   server-name  server-name
                   remote-addr  remote-addr
-                  ;; FIXME: drop the binary_to_list/1 call
-                  uri          (binary_to_list uri) 
+                  uri          uri
                   path         path
                   query-string query-string
                   query-params query-params
                   scheme       scheme
                   method       method
-                  ;; TODO: add protocol field to lmug request record
-                  ;; protocol     protocol
+                  protocol     protocol
                   ;; TODO: ssl-client-cert
                   headers       headers
                   body          body
                   orig         req
-                  ;; TODO: add mw-data field to lmug request record
-                  ;; mw-data      []
-                  )))
+                  mw-data      [])))
 
 (defun response->elli
   "Given an [lmug `#response{}`][1], return an [elli response][2].
@@ -72,15 +67,7 @@
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
   [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
   ([(= (match-response status status headers headers body body) response)]
-   ;; (tuple status headers body)
-   ;; FIXME: delete this hack once lmug uses binaries
-   (tuple status
-          (lists:map
-            (match-lambda
-              ([`#(,k ,v)]
-               `#(,(list_to_binary k) ,(list_to_binary v))))
-            headers)
-          (list_to_binary body))))
+   (tuple status headers body)))
 
 
 ;;;===================================================================
