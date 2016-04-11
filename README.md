@@ -16,7 +16,6 @@
 -   [Introduction](#introduction-)
 -   [Installation](#installation-)
 -   [Usage](#usage-)
-    -   [Simple Example](#simple-example-)
 -   [Documentation](#documentation-)
 -   [License](#license-)
 
@@ -32,69 +31,40 @@ Just add it to your `rebar.config` `deps`:
 {deps, [
   {lmug_elli,
    {git, "git://github.com/lfe-mug/lmug-elli.git",
-    {tag, "0.2.4"}}}
+    {tag, "0.3.0"}}}
 ]}.
 ```
 
 ## Usage [↟](#contents)
 
-### STARTED Simple Example [↟](#contents)
+```lfe
+> (include-lib "clj/include/compose.lfe")
+loaded-compose
+> (set app (-> (lmug:response)
+               (lmug-mw-identity:wrap)
+               (lmug-mw-content-type:wrap)
+               (lmug-mw-identity:wrap)))
+#Fun<lmug-mw-content-type.0.87096894>
+> (set opts '[#(port 3002)])
+(#(port 3002))
+> (lmug-elli:run app opts)
+```
 
--   Middleware: `lmug-mw-example`
+```fish
+http :3002/file.json
+```
 
-    To make for a simple example, our `lmug-mw-example` is the identity middleware.
-    
-    ```lfe
-    (defmodule lmug-mw-example
-      (export (wrap 2)))
-    
-    (defun wrap (handler opts)
-      (lambda (req)
-        (funcall handler opts)))
-    ```
-
--   Supervisor: `example-sup`
-
-    The key point here is to set up your `lmug-elli` middleware.  As with *normal*
-    Elli middlewares, you pass a module name, `lmug-elli`, and a list of `args`.  In
-    this case, `lmug-elli` expects your `args` list to be of the form:
-    
-    ```lfe
-    [#(lmug-mw-mod-name (= [#(opt-name opt-value) ...] opts)) ...]
-    ```
-    
-    For our example, will use a single lmug middleware, `lmug-mw-example` from
-    above, and pass it the empty list as `opts`:
-    
-        #(lmug-elli [#(lmug-mw-example [])])
-    
-    With your middleware configured, start and supervise `elli` as normal:
-    
-    ```lfe
-    (defmodule example-sup
-      (behaviour supervisor)
-      ;; API
-      (export (start_link 0))
-      ;; Supervisor callbacks
-      (export (init 1)))
-    
-    (defun start_link ()
-      (supervisor:start_link `#(local ,(MODULE)) (MODULE) []))
-    
-    (defun init
-      ([()]
-       (let* ((callback_args `[#(mods [#(lmug-elli [#(lmug-mw-example [])])])])
-              (config        `[#(callback      elli_middleware)
-                               #(callback_args ,config)
-                               #(port          8080)]))
-         #(ok #(#m(intensity 5 period 10)
-                [#m(id example start #(elli start_link []))])))))
-    ```
+```http
+HTTP/1.1 200 OK
+Connection: Keep-Alive
+Content-Length: 0
+Content-Type: application/json
+```
 
 ## Documentation [↟](#contents)
 
 -   The [lmug spec](https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md) — based on the Clojure [Ring spec](https://github.com/ring-clojure/ring/blob/master/SPEC).
--   The [lmug-elli API reference](http://lfe-mug.github.io/lmug-elli).
+-   The [lmug\_elli API reference](http://lfe-mug.github.io/lmug-elli).
 
 ## License [↟](#contents)
 
