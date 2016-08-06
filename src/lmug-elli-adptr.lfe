@@ -6,8 +6,7 @@
           (convert-request 1) (convert-request 2)
           (convert-response 1) (convert-response 2))
   ;; Convenient imports
-  (import (rename erlang ((function_exported 3) exported?))
-          (rename elli_request
+  (import (rename elli_request
             ((peer 1) convert-remote-addr)
             ((raw_path 1) convert-uri)
             ((path 1) convert-path)
