@@ -50,7 +50,7 @@
   (convert-request req []))
 
 (defun convert-request (req _opts)
-  "Given an [elli `#req{}`][1], return an [lmug `#request{}`][2].
+  "Given an [Elli `#req{}`][1], return an [lmug `#request{}`][2].
 
   N.B. `opts` is currently ignored.
 
