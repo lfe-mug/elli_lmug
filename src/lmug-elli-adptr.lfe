@@ -133,7 +133,6 @@
    (flet ((i->l (i) (integer_to_list i)))
      (iolist_to_binary (list "HTTP/" (i->l major) "." (i->l minor))))))
 
-;; TODO: Use lmug-util:convert-verb/1 once it's ready.
 (defun convert-method
   ;; TODO: write docstring
   ([(match-req method method)] (convert-method method))
