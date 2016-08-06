@@ -1,5 +1,5 @@
 (defmodule lmug-elli
-  (doc "Elli middleware to run an lmug app.")
+  "Elli middleware to run an lmug app."
   (behaviour elli_handler)
   ;; (behaviour lmug-srvr)
   ;; elli_handler callbacks

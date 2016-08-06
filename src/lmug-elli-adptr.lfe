@@ -1,5 +1,5 @@
 (defmodule lmug-elli-adptr
-  (doc "An lmug adaptor for the Elli web server.")
+  "An lmug adaptor for the Elli web server."
   (behaviour lmug-adptr)
   ;; lmug-adptr callbacks
   (export (call-handler 1) (call-handler 2)
