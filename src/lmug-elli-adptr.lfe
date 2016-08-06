@@ -137,15 +137,6 @@
 (defun convert-method
   ;; TODO: write docstring
   ([(match-req method method)] (convert-method method))
-  (['OPTIONS]                  'options)
-  (['GET]                      'get)
-  (['HEAD]                     'head)
-  (['POST]                     'post)
-  (['PUT]                      'put)
-  (['DELETE]                   'delete)
-  (['TRACE]                    'trace)
-  ([bin] (when (is_binary bin))
-   (-> (bc ((<= c bin)) ((string:to_lower c) integer))
-       (binary_to_existing_atom 'latin1))))
+  ([method]                    (lmug-util:convert-verb method)))
 
 (defun log (msg data) (logjam:debug (++ msg ":\n~p") `[,data]) data)
