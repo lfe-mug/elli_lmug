@@ -3,7 +3,7 @@
   (behaviour elli_handler)
   ;; (behaviour lmug-srvr)
   ;; elli_handler callbacks
-  (export (handle 2))
+  (export (handle 2) (handle_event 3))
   ;; (forthcoming) lmug-srvr callbacks
   (export (run 2)))
 
@@ -24,6 +24,14 @@
        (log "Handler data")
        (lmug-elli-adptr:convert-response)
        (log "Response data")))
+
+(defun handle_event (_event _data _args)
+  "Handle request events, like `request_complete`, `request_throw`,
+  `client_timeout`, etc. Included for [`elli_handler`][1] conformance.
+  Return ``'ok``, irrespective of input.
+
+  [1]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl"
+  'ok)
 
 
 ;;;===================================================================
