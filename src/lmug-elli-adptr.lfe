@@ -1,13 +1,12 @@
 (defmodule lmug-elli-adptr
-  (doc "An lmug adaptor for the Elli web server.")
+  "An lmug adaptor for the Elli web server."
   (behaviour lmug-adptr)
   ;; lmug-adptr callbacks
   (export (call-handler 1) (call-handler 2)
           (convert-request 1) (convert-request 2)
           (convert-response 1) (convert-response 2))
   ;; Convenient imports
-  (import (rename erlang ((function_exported 3) exported?))
-          (rename elli_request
+  (import (rename elli_request
             ((peer 1) convert-remote-addr)
             ((raw_path 1) convert-uri)
             ((path 1) convert-path)
@@ -138,15 +137,6 @@
 (defun convert-method
   ;; TODO: write docstring
   ([(match-req method method)] (convert-method method))
-  (['OPTIONS]                  'options)
-  (['GET]                      'get)
-  (['HEAD]                     'head)
-  (['POST]                     'post)
-  (['PUT]                      'put)
-  (['DELETE]                   'delete)
-  (['TRACE]                    'trace)
-  ([bin] (when (is_binary bin))
-   (-> (bc ((<= c bin)) ((string:to_lower c) integer))
-       (binary_to_existing_atom 'latin1))))
+  ([method]                    (lmug-util:convert-verb method)))
 
 (defun log (msg data) (logjam:debug (++ msg ":\n~p") `[,data]) data)

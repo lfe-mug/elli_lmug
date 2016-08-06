@@ -31,7 +31,7 @@ Just add it to your `rebar.config` `deps`:
 {deps, [
   {lmug_elli,
    {git, "git://github.com/lfe-mug/lmug-elli.git",
-    {tag, "0.3.0"}}}
+    {tag, "0.3.1"}}}
 ]}.
 ```
 
@@ -69,5 +69,5 @@ Content-Type: application/json
 ## License [↟](#contents)
 
     Copyright © 2016 LFE Dragon Team
-    
+
     Distributed under the Apache License, Version 2.0.
