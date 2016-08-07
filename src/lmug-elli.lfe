@@ -48,7 +48,12 @@
 ;;;===================================================================
 
 (defun run (handler opts)
-  ;; TODO: write docstring
+  "Given an [lmug handler][1] and a list of [Elli `opts`][2], run an `lmug-elli`
+  app and return a singleton list containing the resulting (unlinked) pid of the
+  underlying `elli` process.
+
+  [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#handlers
+  [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli.erl#L79-L98"
   (logjam:start)
   ;; FIXME: rethink this
   (let* ((config      `[#(mods [#(lmug-elli [#(handler ,handler)])])])
