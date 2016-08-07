@@ -136,6 +136,6 @@
 (defun convert-method
   ;; TODO: write docstring
   ([(match-req method method)] (convert-method method))
-  ([method]                    (lmug-util:convert-verb method)))
+  ([method]                    (lmug-util:normalize-http-verb method)))
 
 (defun log (msg data) (logjam:debug (++ msg ":\n~p") `[,data]) data)
