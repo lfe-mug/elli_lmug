@@ -4,12 +4,12 @@
 (<a href="lmug-elli-adptr.html#func-convert-request.2F1">lmug-elli-adptr:convert-request/1</a>), calling the specified handler<br />
 (<a href="lmug-elli-adptr.html#func-call-handler.2F1">lmug-elli-adptr:call-handler/1</a>) and then converting the<br />
 <a href="https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record">lmug <code>#response{}</code></a> to an <a href="https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5">Elli response tuple</a>.</p>
-</div></div><div class="public anchor" id="func-handle_event.2F3"><h3>handle_event/3</h3><div class="usage"><div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(_event _data _args)</code></pre></div>
+</div><div class="src-link"><a href="https://github.com/lfe-mug/lmug-elli/blob/0.3.3/src/lmug-elli.lfe#L18">view source</a></div></div><div class="public anchor" id="func-handle_event.2F3"><h3>handle_event/3</h3><div class="usage"><div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(_event _data _args)</code></pre></div>
 </div><div class="doc"><p>Handle request events, like <code>request_complete</code>, <code>request_throw</code>,<br />
 <code>client_timeout</code>, etc. Included for <a href="https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl"><code>elli_handler</code></a> conformance.<br />
 Return <code>'ok</code>, irrespective of input.</p>
-</div></div><div class="public anchor" id="func-run.2F2"><h3>run/2</h3><div class="usage"><div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(handler opts)</code></pre></div>
+</div><div class="src-link"><a href="https://github.com/lfe-mug/lmug-elli/blob/0.3.3/src/lmug-elli.lfe#L37">view source</a></div></div><div class="public anchor" id="func-run.2F2"><h3>run/2</h3><div class="usage"><div class="sourceCode"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp">(handler opts)</code></pre></div>
 </div><div class="doc"><p>Given an <a href="https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#handlers">lmug handler</a> and a list of <a href="https://github.com/knutin/elli/blob/v1.0.5/src/elli.erl#L79-L98">Elli <code>opts</code></a>, run an <code>lmug-elli</code><br />
 app and return a singleton list containing the resulting (unlinked) pid of the<br />
 underlying <code>elli</code> process.</p>
-</div></div></div></body></html>
+</div><div class="src-link"><a href="https://github.com/lfe-mug/lmug-elli/blob/0.3.3/src/lmug-elli.lfe#L50">view source</a></div></div></div></body></html>
