@@ -3,7 +3,7 @@
   (behaviour elli_handler)
   ;; (behaviour lmug-srvr)
   ;; elli_handler callbacks
-  (export (handle 2))
+  (export (handle 2) (handle_event 3))
   ;; (forthcoming) lmug-srvr callbacks
   (export (run 2)))
 
@@ -16,6 +16,15 @@
 ;;;===================================================================
 
 (defun handle (req opts)
+  "Handle an [Elli `#req{}`][1] by converting it to an [lmug `#request{}`][2]
+  ([[lmug-elli-adptr:convert-request/1]]), calling the specified handler
+  ([[lmug-elli-adptr:call-handler/1]]) and then converting the
+  [lmug `#response{}`][3] to an [Elli response tuple][4].
+
+  [1]: https://github.com/knutin/elli/blob/v1.0.5/include/elli.hrl#L35-L46
+  [2]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#request-record
+  [3]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
+  [4]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
   (log "Got req" req)
   (->> req
        (lmug-elli-adptr:convert-request)
@@ -25,13 +34,26 @@
        (lmug-elli-adptr:convert-response)
        (log "Response data")))
 
+(defun handle_event (_event _data _args)
+  "Handle request events, like `request_complete`, `request_throw`,
+  `client_timeout`, etc. Included for [`elli_handler`][1] conformance.
+  Return ``'ok``, irrespective of input.
+
+  [1]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl"
+  'ok)
+
 
 ;;;===================================================================
 ;;; lmug server
 ;;;===================================================================
 
 (defun run (handler opts)
-  ;; TODO: write docstring
+  "Given an [lmug handler][1] and a list of [Elli `opts`][2], run an `lmug-elli`
+  app and return a singleton list containing the resulting (unlinked) pid of the
+  underlying `elli` process.
+
+  [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#handlers
+  [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli.erl#L79-L98"
   (logjam:start)
   ;; FIXME: rethink this
   (let* ((config      `[#(mods [#(lmug-elli [#(handler ,handler)])])])

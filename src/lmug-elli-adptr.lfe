@@ -50,7 +50,7 @@
   (convert-request req []))
 
 (defun convert-request (req _opts)
-  "Given an [elli `#req{}`][1], return an [lmug `#request{}`][2].
+  "Given an [Elli `#req{}`][1], return an [lmug `#request{}`][2].
 
   N.B. `opts` is currently ignored.
 
@@ -95,7 +95,7 @@
   (convert-response req []))
 
 (defun convert-response
-  "Given an [lmug `#response{}`][1], return an [elli response][2].
+  "Given an [lmug `#response{}`][1], return an [Elli response tuple][2].
 
   [1]: https://github.com/lfe-mug/lmug/blob/master/docs/SPEC.md#response-record
   [2]: https://github.com/knutin/elli/blob/v1.0.5/src/elli_handler.erl#L5"
@@ -133,7 +133,6 @@
    (flet ((i->l (i) (integer_to_list i)))
      (iolist_to_binary (list "HTTP/" (i->l major) "." (i->l minor))))))
 
-;; TODO: Use lmug-util:convert-verb/1 once it's ready.
 (defun convert-method
   ;; TODO: write docstring
   ([(match-req method method)] (convert-method method))
